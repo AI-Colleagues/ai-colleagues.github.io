@@ -695,7 +695,7 @@
             <div class="chatkit-bubble__header">
                 <div class="chatkit-bubble__title">
                     <span>Chatting</span>
-                    <strong>AI Colleagues</strong>
+                    <strong>Orcheo Bot</strong>
                 </div>
                 <button type="button" class="chatkit-bubble__close" data-chatkit-close>
                     Close
@@ -794,12 +794,12 @@
                     fetch: buildPublicChatFetch({
                         workflowId,
                         backendBase,
-                        workflowName: "AI Colleagues",
+                        workflowName: "Orcheo Bot",
                     }),
                 },
-                header: { enabled: true, title: { text: "AI Colleagues" } },
-                history: { enabled: true },
-                composer: { placeholder: "Ask AI Colleagues a question..." },
+                header: { enabled: true, title: { text: "Orcheo Bot" } },
+                history: { enabled: false },
+                composer: { placeholder: "Ask Orcheo Bot a question..." },
             };
 
             const applyOptions = () => {
