@@ -25,7 +25,7 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <a href="#contact" class="btn btn-primary">Get Started</a>
+            <a href="#contact" class="btn btn-primary">Request a Demo</a>
         </div>
     </nav>
 
@@ -626,7 +626,7 @@
                         <textarea id="message" name="message" rows="4" required></textarea>
                     </div>
                     <p class="form-error" id="contact-error" role="alert" aria-live="polite"></p>
-                    <button type="button" class="btn btn-primary btn-full" id="contact-submit">Send Message</button>
+                    <button type="submit" class="btn btn-primary btn-full" id="contact-submit">Send Message</button>
                 </form>
             </div>
         </div>
@@ -671,14 +671,15 @@
     </footer>
     <script>
         const contactForm = document.getElementById("contact-form");
-        const contactSubmit = document.getElementById("contact-submit");
         const contactError = document.getElementById("contact-error");
-        if (contactForm && contactSubmit && contactError) {
-            contactSubmit.addEventListener("click", () => {
+        if (contactForm && contactError) {
+            contactForm.addEventListener("submit", (event) => {
+                event.preventDefault();
                 contactError.textContent = "";
 
                 if (!contactForm.checkValidity()) {
                     contactError.textContent = "Please complete all required fields with a valid email.";
+                    contactForm.reportValidity();
                     return;
                 }
 
@@ -702,8 +703,9 @@
                     message,
                 ];
                 const body = encodeURIComponent(lines.join("\n"));
+                const mailtoLink = `mailto:info@ai-colleagues.com?subject=${subject}&body=${body}`;
 
-                window.location.href = `mailto:info@ai-colleagues.com?subject=${subject}&body=${body}`;
+                window.location.href = mailtoLink;
             });
         }
     </script>
