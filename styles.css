@@ -1240,3 +1240,126 @@ p {
         transform: rotate(90deg);
     }
 }
+
+.chatkit-bubble {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    left: auto;
+    width: auto;
+    margin: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-family: "Inter", sans-serif;
+}
+
+.chatkit-bubble[data-state="open"] .chatkit-bubble__toggle {
+    display: none;
+}
+
+.chatkit-bubble__toggle {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-accent);
+    color: var(--bg-primary);
+    box-shadow: 0 18px 50px rgba(0, 217, 165, 0.25);
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.chatkit-bubble__toggle svg {
+    height: 22px;
+    width: 22px;
+}
+
+.chatkit-bubble__toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 22px 60px rgba(0, 217, 165, 0.35);
+}
+
+.chatkit-bubble__panel {
+    width: min(420px, calc(100vw - 32px));
+    height: min(520px, 80vh);
+    background: var(--bg-secondary);
+    color: #e2e8f0;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.6);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    pointer-events: none;
+    transform-origin: bottom right;
+    transition: opacity 180ms ease, transform 180ms ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatkit-bubble__panel[data-open="true"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.chatkit-bubble__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: rgba(10, 15, 13, 0.9);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chatkit-bubble__title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.chatkit-bubble__title span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+}
+
+.chatkit-bubble__title strong {
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    color: var(--text-primary);
+}
+
+.chatkit-bubble__close {
+    appearance: none;
+    border: none;
+    background: rgba(0, 217, 165, 0.15);
+    color: var(--accent);
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+}
+
+.chatkit-bubble__body {
+    flex: 1;
+    overflow: hidden;
+}
+
+@media (max-width: 640px) {
+    .chatkit-bubble {
+        right: 16px;
+        bottom: 16px;
+    }
+
+    .chatkit-bubble__panel {
+        width: min(360px, calc(100vw - 24px));
+    }
+}
