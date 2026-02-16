@@ -45,9 +45,9 @@ export function Header() {
 
         <div className="flex items-center space-x-4">
           <ThemeToggle />
-          <a href={withBase("/contact")} className="hidden md:inline-flex">
-            <Button>Request Demo</Button>
-          </a>
+          <Button asChild className="hidden md:inline-flex">
+            <a href={withBase("/contact")}>Request Demo</a>
+          </Button>
 
           <button
             className="md:hidden"
@@ -72,9 +72,11 @@ export function Header() {
                 {item.label}
               </a>
             ))}
-            <a href={withBase("/contact")} onClick={() => setIsMenuOpen(false)}>
-              <Button className="w-full">Request Demo</Button>
-            </a>
+            <Button asChild className="w-full">
+              <a href={withBase("/contact")} onClick={() => setIsMenuOpen(false)}>
+                Request Demo
+              </a>
+            </Button>
           </div>
         </div>
       )}

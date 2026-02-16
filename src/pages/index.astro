@@ -1,12 +1,147 @@
 ---
 import Layout from '../layouts/main.astro';
+import { getCollection } from 'astro:content';
+import { existsSync, readdirSync } from 'node:fs';
+import { ArrowRight, Calendar, Clock } from 'lucide-react';
+import { withBase } from '@/lib/utils';
 import { Hero } from '@/components/Hero';
 import { Features } from '@/components/Features';
 import { FAQ } from '@/components/FAQ';
+import { estimateReadingTime } from '@/lib/readingTime';
+
+const sortByPubDateDesc = (a: { data: { pubDate: Date } }, b: { data: { pubDate: Date } }) =>
+  b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+
+const collectionPaths = {
+  blog: new URL('../content/blog', import.meta.url),
+  news: new URL('../content/news', import.meta.url),
+} as const;
+
+const hasCollectionFiles = (collection: 'blog' | 'news') => {
+  const folder = collectionPaths[collection];
+  if (!existsSync(folder)) {
+    return false;
+  }
+
+  return readdirSync(folder).some((entry) => entry.endsWith('.md') || entry.endsWith('.mdx'));
+};
+
+const getLatestPosts = async (collection: 'blog' | 'news') => {
+  if (!hasCollectionFiles(collection)) {
+    return [];
+  }
+
+  return (await getCollection(collection, ({ data }) => !data.draft))
+    .sort(sortByPubDateDesc)
+    .slice(0, 3);
+};
+
+const latestBlogPosts = await getLatestPosts('blog');
+const latestNewsPosts = await getLatestPosts('news');
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+
+const panelCardClass =
+  "relative isolate rounded-2xl bg-gradient-to-b from-card via-card/95 to-card/85 dark:from-card dark:via-card dark:to-card/75 p-6 md:p-8 ring-1 ring-black/5 dark:ring-white/10 transition-all duration-300 shadow-[inset_0_1px_0_hsl(var(--background)/0.75),0_14px_32px_-24px_rgba(2,8,23,0.6)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_18px_38px_-24px_rgba(0,0,0,0.9)] hover:-translate-y-1 hover:shadow-[inset_0_1px_0_hsl(var(--background)/0.85),0_28px_56px_-26px_rgba(2,8,23,0.48)] dark:hover:ring-white/15 dark:hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_30px_64px_-24px_rgba(0,0,0,0.95)] before:pointer-events-none before:absolute before:-inset-2 before:-z-10 before:rounded-[1.15rem] before:border before:border-slate-300/70 before:opacity-90 before:blur-lg dark:before:border-slate-600/60 dark:before:opacity-80 after:pointer-events-none after:absolute after:-inset-6 after:-z-20 after:rounded-[1.7rem] after:bg-slate-300/35 after:opacity-70 after:blur-3xl dark:after:bg-slate-900/70 dark:after:opacity-80 hover:before:opacity-100 hover:after:opacity-90";
 ---
 
 <Layout title="AI Colleagues - Build Reliable AI Systems">
   <Hero client:load />
   <Features client:load />
+  <section class="py-20 border-y bg-muted/20">
+    <div class="container mx-auto px-4">
+      <div class="text-center space-y-3 mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold">Latest Updates</h2>
+        <p class="text-muted-foreground max-w-2xl mx-auto">
+          Recent technical articles and company updates.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div class={panelCardClass}>
+          <div class="flex items-center justify-between gap-4 mb-5">
+            <h3 class="text-2xl font-semibold">Blog</h3>
+            <a
+              href={withBase('/blog')}
+              class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-2 transition-all"
+            >
+              View all
+              <ArrowRight class="h-4 w-4" />
+            </a>
+          </div>
+
+          {latestBlogPosts.length === 0 ? (
+            <p class="text-muted-foreground text-sm">No blog posts published yet.</p>
+          ) : (
+            <div class="space-y-4">
+              {latestBlogPosts.map((post) => (
+                <a
+                  href={withBase(`/blog/${post.slug}`)}
+                  class="group block rounded-xl border bg-background/50 p-4 transition-all hover:bg-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                >
+                  <article>
+                    <span class="inline-flex items-center gap-3 text-xs text-muted-foreground mb-2">
+                      <span class="inline-flex items-center gap-1">
+                        <Calendar class="h-3.5 w-3.5" />
+                        {formatDate(post.data.pubDate)}
+                      </span>
+                      <span class="inline-flex items-center gap-1">
+                        <Clock class="h-3.5 w-3.5" />
+                        {estimateReadingTime(post.body).text}
+                      </span>
+                    </span>
+                    <h4 class="font-semibold mb-1 transition-colors group-hover:text-primary">
+                      {post.data.title}
+                    </h4>
+                    <p class="text-sm text-muted-foreground">{post.data.summary}</p>
+                  </article>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div class={panelCardClass}>
+          <div class="flex items-center justify-between gap-4 mb-5">
+            <h3 class="text-2xl font-semibold">News</h3>
+            <a
+              href={withBase('/news')}
+              class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-2 transition-all"
+            >
+              View all
+              <ArrowRight class="h-4 w-4" />
+            </a>
+          </div>
+
+          {latestNewsPosts.length === 0 ? (
+            <p class="text-muted-foreground text-sm">No news updates published yet.</p>
+          ) : (
+            <div class="space-y-4">
+              {latestNewsPosts.map((post) => (
+                <a
+                  href={withBase('/news')}
+                  class="group block rounded-xl border bg-background/50 p-4 transition-all hover:bg-background/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                >
+                  <article>
+                    <span class="inline-flex items-center gap-1 text-xs text-muted-foreground mb-2">
+                      <Calendar class="h-3.5 w-3.5" />
+                      {formatDate(post.data.pubDate)}
+                    </span>
+                    <h4 class="font-semibold mb-1 transition-colors group-hover:text-primary">{post.data.title}</h4>
+                    <p class="text-sm text-muted-foreground">{post.data.summary}</p>
+                  </article>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
   <FAQ client:load />
 </Layout>

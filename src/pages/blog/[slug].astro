@@ -1,8 +1,9 @@
 ---
 import Layout from '../../layouts/main.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { ArrowLeft, Calendar } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import { withBase } from '@/lib/utils';
+import { estimateReadingTime } from '@/lib/readingTime';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -18,6 +19,7 @@ type Props = {
 
 const { post } = Astro.props as Props;
 const { Content } = await post.render();
+const readingTime = estimateReadingTime(post.body);
 ---
 
 <Layout title={`${post.data.title} - AI Colleagues`}>
@@ -41,6 +43,10 @@ const { Content } = await post.render();
                 day: 'numeric',
                 year: 'numeric',
               })}
+            </span>
+            <span class="inline-flex items-center gap-1">
+              <Clock class="h-4 w-4" />
+              {readingTime.text}
             </span>
             <span class="inline-block px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
               {post.data.category}
