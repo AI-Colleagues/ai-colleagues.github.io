@@ -144,7 +144,11 @@ const workflowName = "Orcheo Bot";
             workflowName,
           }),
         },
-        header: { enabled: false, title: { text: workflowName } },
+        header: {
+          enabled: true,
+          title: { text: workflowName },
+          rightAction: { icon: "close", onClick: () => closeBubble() },
+        },
         history: { enabled: false },
         composer: { placeholder: `Ask ${workflowName} a question...` },
       };

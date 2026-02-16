@@ -72,6 +72,16 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-3">
               <li>
+                <a
+                  href="https://orcheo.readthedocs.io/en/latest/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Orcheo Documentation
+                </a>
+              </li>
+              <li>
                 <a href={withBase("/blog")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Blog
                 </a>
