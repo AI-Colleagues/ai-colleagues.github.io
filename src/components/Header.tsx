@@ -17,10 +17,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <nav className="container flex h-16 items-center justify-between">
-        <a href={withBase("/")} className="flex items-center space-x-3">
-          <img src={withBase("/aic-icon.svg")} alt="AI Colleagues" className="h-8 w-8" />
-          <span className="font-bold text-xl bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-300 dark:to-blue-300 bg-clip-text text-transparent">
+      <nav className="container flex h-[72px] items-center justify-between">
+        <a href={withBase("/")} className="inline-flex items-center gap-2.5">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] bg-white p-0">
+            <img
+              src={withBase("/aic-icon.svg")}
+              alt="AI Colleagues"
+              className="h-[92%] w-[92%] object-contain scale-[1.5] translate-x-[2%] translate-y-[6%]"
+            />
+          </span>
+          <span className="font-bold leading-tight text-xl bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-300 dark:to-blue-300 bg-clip-text text-transparent">
             AI Colleagues
           </span>
         </a>
