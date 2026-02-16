@@ -153,10 +153,27 @@ const workflowName = "Orcheo Bot";
         composer: { placeholder: `Ask ${workflowName} a question...` },
       };
 
+      const getColorScheme = () =>
+        document.documentElement.classList.contains("dark") ? "dark" : "light";
+
+      let currentColorScheme = getColorScheme();
+
       const applyOptions = () => {
         if (typeof chatkit.setOptions === "function") {
-          chatkit.setOptions(options);
+          chatkit.setOptions({
+            ...options,
+            theme: { colorScheme: currentColorScheme },
+          });
         }
+      };
+
+      const syncTheme = () => {
+        const nextColorScheme = getColorScheme();
+        if (nextColorScheme === currentColorScheme) {
+          return;
+        }
+        currentColorScheme = nextColorScheme;
+        applyOptions();
       };
 
       if (customElements.get("openai-chatkit")) {
@@ -164,6 +181,18 @@ const workflowName = "Orcheo Bot";
       } else {
         customElements.whenDefined("openai-chatkit").then(applyOptions);
       }
+
+      const rootObserver = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+          if (mutation.type === "attributes" && mutation.attributeName === "class") {
+            syncTheme();
+          }
+        }
+      });
+      rootObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class"],
+      });
 
       const openBubble = () => {
         panel.dataset.open = "true";
