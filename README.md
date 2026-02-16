@@ -8,7 +8,7 @@ Astro-based static website for AI Colleagues, deployed to GitHub Pages with cust
 - `src/pages/blog/*`: blog list and Markdown post pages
 - `src/pages/news/index.astro`: news landing page
 - `src/content/blog/*.md`: blog content
-- `public/docs/*`: downloadable document assets
+- `public/assets/*`: downloadable static assets
 - `public/CNAME`: GitHub Pages custom domain
 
 ## Legacy and Archived Files

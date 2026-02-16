@@ -5,7 +5,7 @@ import { ArrowLeft, Calendar } from 'lucide-react';
 import { withBase } from '@/lib/utils';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const posts = await getCollection('news', ({ data }) => !data.draft);
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 }
 
 type Props = {
-  post: CollectionEntry<'blog'>;
+  post: CollectionEntry<'news'>;
 };
 
 const { post } = Astro.props as Props;
@@ -25,11 +25,11 @@ const { Content } = await post.render();
     <div class="container mx-auto px-4">
       <div class="max-w-5xl mx-auto">
         <a
-          href={withBase('/blog')}
+          href={withBase('/news')}
           class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
         >
           <ArrowLeft class="h-4 w-4" />
-          Back to Blog
+          Back to News
         </a>
         <header class="mb-10 border-b pb-8 text-center">
           <div class="flex items-center justify-center gap-3 text-sm text-muted-foreground mb-4">

@@ -22,7 +22,7 @@ We built Orcheo to help teams design, run, and operate these workflows reliably 
 
 This post distills the paper’s key insights and translates them into practical takeaways for anyone building (or maintaining) an LLM-powered conversational search system.
 
-The work was co-authored by [Shaojie Jiang](https://nl.linkedin.com/in/shaojie-jiang-1a69b3122) (AI Colleagues (AIC) and University of Amsterdam), [Svitlana Vakulenko](https://www.linkedin.com/in/svakulenko) (WU Vienna University of Economics and Business), and [Maarten de Rijke](https://www.linkedin.com/in/maartenderijke) (University of Amsterdam). If you want the full technical details first, [read the paper here](/docs/orcheo-conversational-search-resource-paper.pdf).
+The work was co-authored by [Shaojie Jiang](https://nl.linkedin.com/in/shaojie-jiang-1a69b3122) (AI Colleagues (AIC) and University of Amsterdam), [Svitlana Vakulenko](https://www.linkedin.com/in/svakulenko) (WU Vienna University of Economics and Business), and [Maarten de Rijke](https://www.linkedin.com/in/maartenderijke) (University of Amsterdam). If you want the full technical details first, [read the paper here](/assets/orcheo-conversational-search-resource-paper.pdf).
 
 ## TL;DR (what you can take away)
 
