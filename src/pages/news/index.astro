@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/main.astro';
+import { getCollection } from 'astro:content';
+import { Calendar, ArrowRight } from 'lucide-react';
+import { withBase } from '@/lib/utils';
+
+const posts = (await getCollection('news', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<Layout title="News - AI Colleagues">
+  <section class="py-20 md:py-28">
+    <div class="container mx-auto px-4">
+      <div class="text-center space-y-4 mb-14">
+        <h1 class="text-4xl md:text-6xl font-bold">
+          Company
+          <span class="bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-300 dark:to-cyan-300 bg-clip-text text-transparent"> News</span>
+        </h1>
+        <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+          Product updates, releases, and delivery highlights.
+        </p>
+      </div>
+
+      <div class="max-w-4xl mx-auto space-y-5">
+        {posts.map((post) => (
+          <article class="rounded-2xl border bg-card p-6 hover:shadow-lg transition-shadow">
+            <div class="flex items-center gap-3 text-sm text-muted-foreground mb-3">
+              <Calendar class="h-4 w-4" />
+              <span>{post.data.pubDate.toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}</span>
+              {post.data.source && (
+                <span class="text-xs bg-secondary px-2 py-1 rounded-full">{post.data.source}</span>
+              )}
+            </div>
+            <h2 class="text-2xl font-semibold mb-2">{post.data.title}</h2>
+            <p class="text-muted-foreground mb-4">{post.data.summary}</p>
+            <a href={withBase(`/news/${post.slug}`)} class="inline-flex items-center gap-2 text-sm font-medium text-primary">
+              Read update
+              <ArrowRight class="h-4 w-4" />
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
