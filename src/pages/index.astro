@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/main.astro';
+import { Hero } from '@/components/Hero';
+import { Features } from '@/components/Features';
+import { FAQ } from '@/components/FAQ';
+---
+
+<Layout title="AI Colleagues - Build Reliable AI Systems">
+  <Hero client:load />
+  <Features client:load />
+  <FAQ client:load />
+</Layout>

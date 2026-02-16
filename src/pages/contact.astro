@@ -1,0 +1,184 @@
+---
+import Layout from '../layouts/main.astro';
+import { Mail, MapPin, Send } from 'lucide-react';
+
+const web3FormsAccessKey =
+  import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ??
+  '8a74e223-d5a5-4f87-b898-03d7ea0e7a13';
+---
+
+<Layout title="Contact - AI Colleagues">
+  <section class="py-20 md:py-32">
+    <div class="container mx-auto px-4">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center space-y-4 mb-16">
+          <h1 class="text-4xl md:text-6xl font-bold">
+            Start your next
+            <span class="bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-300 dark:to-blue-300 bg-clip-text text-transparent"> AI project</span>
+          </h1>
+          <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Share your use case and we will suggest a practical implementation path.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2">
+            <div class="p-8 rounded-2xl border bg-card">
+              <h2 class="text-2xl font-bold mb-6">Send us a message</h2>
+              <form id="contact-form" class="space-y-6" novalidate>
+                <input type="hidden" name="access_key" value={web3FormsAccessKey} />
+                <input type="hidden" name="subject" value="AI Colleagues Website Inquiry" />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label for="name" class="block text-sm font-medium mb-2">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      class="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      placeholder="Your name"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label for="email" class="block text-sm font-medium mb-2">Email</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      placeholder="you@company.com"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label for="subject-input" class="block text-sm font-medium mb-2">Subject</label>
+                  <input
+                    type="text"
+                    id="subject-input"
+                    name="topic"
+                    class="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    placeholder="What do you want to build?"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label for="message" class="block text-sm font-medium mb-2">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    class="flex w-full rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring resize-none"
+                    placeholder="Describe your workflow, constraints, and target outcomes..."
+                    required
+                  ></textarea>
+                </div>
+
+                <p id="contact-error" class="text-sm text-destructive"></p>
+                <p id="contact-success" class="text-sm text-green-600 dark:text-green-400"></p>
+
+                <button
+                  id="contact-submit"
+                  type="submit"
+                  class="inline-flex items-center justify-center gap-2 h-10 px-6 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors w-full md:w-auto disabled:opacity-60"
+                >
+                  <Send class="h-4 w-4" />
+                  Submit
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div class="p-6 rounded-2xl border bg-card">
+              <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 mb-4">
+                <Mail class="h-6 w-6 text-white" />
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Email</h3>
+              <p class="text-muted-foreground">contact@ai-colleagues.com</p>
+            </div>
+
+            <div class="p-6 rounded-2xl border bg-card">
+              <div class="inline-flex p-3 rounded-xl bg-gradient-to-br from-blue-500 to-teal-500 mb-4">
+                <MapPin class="h-6 w-6 text-white" />
+              </div>
+              <h3 class="text-lg font-semibold mb-2">Location</h3>
+              <p class="text-muted-foreground">Remote-first team, serving global clients.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script is:inline>
+  const form = document.getElementById('contact-form');
+  const errorEl = document.getElementById('contact-error');
+  const successEl = document.getElementById('contact-success');
+  const submitBtn = document.getElementById('contact-submit');
+
+  if (form && errorEl && successEl && submitBtn) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      errorEl.textContent = '';
+      successEl.textContent = '';
+
+      if (!form.checkValidity()) {
+        errorEl.textContent = 'Please complete all required fields with a valid email.';
+        form.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(form);
+      const accessKey = String(formData.get('access_key') ?? '').trim();
+
+      if (!accessKey) {
+        errorEl.textContent = 'Form configuration is missing. Please set PUBLIC_WEB3FORMS_ACCESS_KEY.';
+        return;
+      }
+
+      submitBtn.setAttribute('disabled', 'true');
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const payload = {
+          access_key: accessKey,
+          subject: String(formData.get('subject') ?? 'AI Colleagues Website Inquiry'),
+          name: String(formData.get('name') ?? '').trim(),
+          email: String(formData.get('email') ?? '').trim(),
+          topic: String(formData.get('topic') ?? '').trim(),
+          message: String(formData.get('message') ?? '').trim(),
+        };
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || 'Unable to submit message.');
+        }
+
+        successEl.textContent = 'Thanks. Your message has been sent.';
+        form.reset();
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unable to submit message.';
+        errorEl.textContent = message;
+      } finally {
+        submitBtn.removeAttribute('disabled');
+        submitBtn.textContent = 'Submit';
+      }
+    });
+  }
+</script>

@@ -1,0 +1,199 @@
+---
+const workflowUrl =
+  "https://orcheo.ai-colleagues.com/chat/5a573dd0-69dc-4cc9-94eb-78a1166dd4cc";
+const domainKey = "domain_pk_6954ef8b091c8190b0734f266b51edd00094f73ed7d04989";
+const workflowName = "Orcheo Bot";
+---
+
+<div
+  class="chatkit-bubble"
+  data-chatkit-container
+  data-state="closed"
+  data-workflow-url={workflowUrl}
+  data-domain-key={domainKey}
+  data-workflow-name={workflowName}
+  aria-live="polite"
+>
+  <button
+    type="button"
+    class="chatkit-bubble__toggle"
+    data-chatkit-toggle
+    aria-expanded="false"
+    aria-label="Open chat"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+
+  <div class="chatkit-bubble__panel" data-chatkit-panel data-open="false">
+    <div class="chatkit-bubble__body">
+      <openai-chatkit></openai-chatkit>
+    </div>
+  </div>
+</div>
+
+<script
+  async
+  defer
+  src="https://cdn.platform.openai.com/deployments/chatkit/chatkit.js"
+  crossorigin="anonymous"
+></script>
+
+<script is:inline>
+  (() => {
+    const initChatkitBubble = () => {
+      const container = document.querySelector("[data-chatkit-container]");
+      if (!container || container.dataset.initialized === "true") {
+        return;
+      }
+      container.dataset.initialized = "true";
+
+      const workflowUrl = container.dataset.workflowUrl;
+      const domainKey = container.dataset.domainKey;
+      const workflowName = container.dataset.workflowName || "Orcheo Bot";
+      if (!workflowUrl || !domainKey) {
+        return;
+      }
+
+      let parsedWorkflowUrl;
+      try {
+        parsedWorkflowUrl = new URL(workflowUrl);
+      } catch {
+        return;
+      }
+
+      const workflowId = parsedWorkflowUrl.pathname.split("/").filter(Boolean).pop();
+      if (!workflowId) {
+        return;
+      }
+
+      const backendBase = parsedWorkflowUrl.origin;
+      const chatkit = container.querySelector("openai-chatkit");
+      const toggleButton = container.querySelector("[data-chatkit-toggle]");
+      const panel = container.querySelector("[data-chatkit-panel]");
+      if (!chatkit || !toggleButton || !panel) {
+        return;
+      }
+
+      const buildPublicChatFetch = ({ workflowId, backendBase, workflowName }) => {
+        const baseFetch = window.fetch.bind(window);
+        const apiUrl = `${backendBase}/api/chatkit`;
+
+        return async (input, init = {}) => {
+          const requestInfo = input || apiUrl;
+          const nextInit = { ...init, credentials: "include" };
+          const headers = new Headers(nextInit.headers || {});
+          const contentType = headers.get("Content-Type") || "";
+          const isJson = contentType.includes("application/json");
+          const bodyIsString = typeof nextInit.body === "string";
+
+          const serializePayload = (serialized) => {
+            if (!serialized) {
+              return JSON.stringify({
+                workflow_id: workflowId,
+                metadata: {
+                  workflow_id: workflowId,
+                  workflow_name: workflowName,
+                },
+              });
+            }
+
+            try {
+              const payload = JSON.parse(serialized);
+              if (payload && typeof payload === "object") {
+                payload.workflow_id ||= workflowId;
+                const metadata =
+                  payload.metadata && typeof payload.metadata === "object"
+                    ? { ...payload.metadata }
+                    : {};
+                metadata.workflow_id = workflowId;
+                metadata.workflow_name = workflowName;
+                payload.metadata = metadata;
+              }
+              return JSON.stringify(payload);
+            } catch {
+              return serialized;
+            }
+          };
+
+          if (isJson || bodyIsString || !nextInit.body) {
+            nextInit.body = serializePayload(bodyIsString ? nextInit.body : null);
+            headers.set("Content-Type", "application/json");
+          }
+
+          nextInit.headers = headers;
+          return baseFetch(requestInfo, nextInit);
+        };
+      };
+
+      const options = {
+        api: {
+          url: `${backendBase}/api/chatkit`,
+          domainKey,
+          fetch: buildPublicChatFetch({
+            workflowId,
+            backendBase,
+            workflowName,
+          }),
+        },
+        header: { enabled: false, title: { text: workflowName } },
+        history: { enabled: false },
+        composer: { placeholder: `Ask ${workflowName} a question...` },
+      };
+
+      const applyOptions = () => {
+        if (typeof chatkit.setOptions === "function") {
+          chatkit.setOptions(options);
+        }
+      };
+
+      if (customElements.get("openai-chatkit")) {
+        applyOptions();
+      } else {
+        customElements.whenDefined("openai-chatkit").then(applyOptions);
+      }
+
+      const openBubble = () => {
+        panel.dataset.open = "true";
+        container.dataset.state = "open";
+        toggleButton.setAttribute("aria-expanded", "true");
+        toggleButton.setAttribute("aria-label", "Close chat");
+      };
+
+      const closeBubble = () => {
+        panel.dataset.open = "false";
+        container.dataset.state = "closed";
+        toggleButton.setAttribute("aria-expanded", "false");
+        toggleButton.setAttribute("aria-label", "Open chat");
+      };
+
+      toggleButton.addEventListener("click", () => {
+        if (panel.dataset.open === "true") {
+          closeBubble();
+        } else {
+          openBubble();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeBubble();
+        }
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initChatkitBubble, { once: true });
+    } else {
+      initChatkitBubble();
+    }
+  })();
+</script>
