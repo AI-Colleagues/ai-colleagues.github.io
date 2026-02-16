@@ -28,7 +28,8 @@ const base = import.meta.env.BASE_URL;
           const theme = storedTheme === "dark" || (storedTheme !== "light" && prefersDark) ? "dark" : "light";
           root.classList.toggle("dark", theme === "dark");
           root.style.colorScheme = theme;
-        } catch {
+        } catch (e) {
+          // Fallback to light mode if localStorage access fails
           root.classList.toggle("dark", false);
           root.style.colorScheme = "light";
         }

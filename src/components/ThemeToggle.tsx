@@ -6,14 +6,11 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
-    // Check localStorage and system preference on mount
+    // Read the current theme that was already applied by the inline script
     const stored = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    const initialTheme = stored === "dark" || (!stored && prefersDark) ? "dark" : "light";
-    setTheme(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
-    document.documentElement.style.colorScheme = initialTheme;
+    const currentTheme = stored === "dark" || (!stored && prefersDark) ? "dark" : "light";
+    setTheme(currentTheme);
   }, []);
 
   const toggleTheme = () => {
