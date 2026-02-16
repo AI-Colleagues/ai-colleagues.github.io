@@ -21,12 +21,12 @@ const countWords = (markdown: string) => {
 
 export function estimateReadingTime(markdown: string, wordsPerMinute = 200): ReadingTimeEstimate {
   const words = countWords(markdown);
+  const isUnderOneMinute = words > 0 && words < wordsPerMinute;
   const minutes = Math.max(1, Math.ceil(words / wordsPerMinute));
 
   return {
     minutes,
     words,
-    text: `${minutes} min read`,
+    text: isUnderOneMinute ? "< 1 min read" : `${minutes} min read`,
   };
 }
-
