@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/main.astro';
 import { getCollection } from 'astro:content';
-import { existsSync, readdirSync } from 'node:fs';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
 import { withBase } from '@/lib/utils';
 import { Hero } from '@/components/Hero';
@@ -12,25 +11,7 @@ import { estimateReadingTime } from '@/lib/readingTime';
 const sortByPubDateDesc = (a: { data: { pubDate: Date } }, b: { data: { pubDate: Date } }) =>
   b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
 
-const collectionPaths = {
-  blog: new URL('../content/blog', import.meta.url),
-  news: new URL('../content/news', import.meta.url),
-} as const;
-
-const hasCollectionFiles = (collection: 'blog' | 'news') => {
-  const folder = collectionPaths[collection];
-  if (!existsSync(folder)) {
-    return false;
-  }
-
-  return readdirSync(folder).some((entry) => entry.endsWith('.md') || entry.endsWith('.mdx'));
-};
-
 const getLatestPosts = async (collection: 'blog' | 'news') => {
-  if (!hasCollectionFiles(collection)) {
-    return [];
-  }
-
   return (await getCollection(collection, ({ data }) => !data.draft))
     .sort(sortByPubDateDesc)
     .slice(0, 3);
