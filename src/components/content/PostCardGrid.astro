@@ -7,19 +7,28 @@ type Props = {
   posts: PostEntry[];
   hrefPrefix: '/blog' | '/news';
   ctaLabel: string;
+  showEmptyState?: boolean;
   emptyMessage?: string;
 };
 
-const { posts, hrefPrefix, ctaLabel, emptyMessage } = Astro.props as Props;
+const {
+  posts,
+  hrefPrefix,
+  ctaLabel,
+  showEmptyState = false,
+  emptyMessage = 'No posts available at the moment.',
+} = Astro.props as Props;
 ---
 
-{posts.length === 0 && emptyMessage ? (
+{posts.length === 0 && showEmptyState ? (
   <div class="max-w-4xl mx-auto">
     <article class="rounded-2xl border bg-card p-6 text-center">
       <p class="text-muted-foreground">{emptyMessage}</p>
     </article>
   </div>
-) : posts.length > 0 ? (
+) : null}
+
+{posts.length > 0 ? (
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
     {posts.map((post) => (
       <a
