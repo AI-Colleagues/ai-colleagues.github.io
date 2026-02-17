@@ -1,60 +1,16 @@
 ---
-import Layout from '../../layouts/main.astro';
-import { getCollection, type CollectionEntry } from 'astro:content';
-import { ArrowLeft, Calendar } from 'lucide-react';
-import { withBase } from '@/lib/utils';
+import PostDetailPage from '@/components/content/PostDetailPage.astro';
+import { getPostStaticPaths, type PostEntry } from '@/lib/content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  return getPostStaticPaths('blog');
 }
 
 type Props = {
-  post: CollectionEntry<'blog'>;
+  post: PostEntry<'blog'>;
 };
 
 const { post } = Astro.props as Props;
-const { Content } = await post.render();
 ---
 
-<Layout title={`${post.data.title} - AI Colleagues`}>
-  <article class="pt-4 pb-8 md:pt-6 md:pb-12">
-    <div class="container mx-auto px-4">
-      <div class="max-w-5xl mx-auto">
-        <a
-          href={withBase('/blog')}
-          class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
-        >
-          <ArrowLeft class="h-4 w-4" />
-          Back to Blog
-        </a>
-        <header class="mb-10 border-b pb-8 text-center">
-          <div class="flex items-center justify-center gap-3 text-sm text-muted-foreground mb-4">
-            <span class="inline-flex items-center gap-1">
-              <Calendar class="h-4 w-4" />
-              {post.data.pubDate.toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </span>
-            <span class="inline-block px-2 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium">
-              {post.data.category}
-            </span>
-          </div>
-          <h1 class="text-3xl md:text-5xl font-bold mb-4">{post.data.title}</h1>
-          <p class="text-xl text-muted-foreground max-w-3xl mx-auto">{post.data.summary}</p>
-        </header>
-      </div>
-
-      <div class="max-w-3xl mx-auto">
-        <div class="prose prose-lg dark:prose-invert max-w-none">
-          <Content />
-        </div>
-      </div>
-    </div>
-  </article>
-</Layout>
+<PostDetailPage post={post} backHref="/blog" backLabel="Back to Blog" />
