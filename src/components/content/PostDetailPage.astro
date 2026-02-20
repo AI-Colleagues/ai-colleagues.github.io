@@ -59,4 +59,131 @@ const { Content } = await post.render();
       </div>
     </div>
   </article>
+
+  <script>
+    const MERMAID_BLOCK_SELECTOR = 'pre[data-language="mermaid"]';
+    const MERMAID_CONTAINER_CLASS = 'post-mermaid';
+    let mermaidPromise;
+
+    const getMermaidTheme = () =>
+      document.documentElement.classList.contains('dark') ? 'dark' : 'default';
+
+    const convertMermaidCodeBlocks = () => {
+      const codeBlocks = document.querySelectorAll(MERMAID_BLOCK_SELECTOR);
+      if (codeBlocks.length === 0) return false;
+
+      for (const block of codeBlocks) {
+        const definition = block.textContent?.trim();
+        if (!definition) continue;
+
+        const container = document.createElement('div');
+        container.className = MERMAID_CONTAINER_CLASS;
+        container.dataset.definition = definition;
+
+        block.replaceWith(container);
+      }
+
+      return true;
+    };
+
+    const getMermaid = async () => {
+      if (!mermaidPromise) {
+        mermaidPromise = import('mermaid').then((module) => module.default);
+      }
+
+      return mermaidPromise;
+    };
+
+    const renderMermaidDiagrams = async () => {
+      const diagrams = Array.from(document.querySelectorAll(`.${MERMAID_CONTAINER_CLASS}`));
+      if (diagrams.length === 0) return;
+
+      const mermaid = await getMermaid();
+      mermaid.initialize({
+        startOnLoad: false,
+        securityLevel: 'loose',
+        theme: getMermaidTheme(),
+      });
+
+      for (const diagram of diagrams) {
+        const definition = diagram.dataset.definition;
+        if (!definition) continue;
+
+        diagram.removeAttribute('data-processed');
+        diagram.textContent = definition;
+      }
+
+      await mermaid.run({ nodes: diagrams });
+    };
+
+    const initMermaid = async () => {
+      const hasMermaidBlocks = convertMermaidCodeBlocks();
+      if (!hasMermaidBlocks) return;
+
+      await renderMermaidDiagrams();
+
+      let isDarkMode = document.documentElement.classList.contains('dark');
+      const observer = new MutationObserver(async () => {
+        const nextIsDarkMode = document.documentElement.classList.contains('dark');
+        if (nextIsDarkMode === isDarkMode) return;
+        isDarkMode = nextIsDarkMode;
+        await renderMermaidDiagrams();
+      });
+
+      observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        void initMermaid();
+      });
+    } else {
+      void initMermaid();
+    }
+  </script>
+
+  <style is:global>
+    .prose .post-mermaid {
+      margin: 1.5rem 0;
+      border: 1px solid hsl(var(--border));
+      border-radius: 0.75rem;
+      background-color: hsl(var(--card));
+      padding: 1rem;
+      overflow-x: auto;
+    }
+
+    .prose .post-mermaid svg {
+      display: block;
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      margin: 0 auto;
+    }
+
+    .prose [data-footnote-ref] {
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .prose [data-footnotes] {
+      margin-top: 2.5rem;
+      font-size: 0.95em;
+    }
+
+    .prose [data-footnotes] ol {
+      padding-left: 1.25rem;
+    }
+
+    .prose [data-footnotes] li {
+      margin-top: 0.5rem;
+    }
+
+    .prose [data-footnote-backref] {
+      text-decoration: none;
+      margin-left: 0.25rem;
+    }
+  </style>
 </Layout>
