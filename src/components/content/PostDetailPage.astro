@@ -63,6 +63,7 @@ const { Content } = await post.render();
   <script>
     const MERMAID_BLOCK_SELECTOR = 'pre[data-language="mermaid"]';
     const MERMAID_CONTAINER_CLASS = 'post-mermaid';
+    /** @type {Promise<import('mermaid').default> | undefined} */
     let mermaidPromise;
 
     const getMermaidTheme = () =>
@@ -71,6 +72,8 @@ const { Content } = await post.render();
     const convertMermaidCodeBlocks = () => {
       const codeBlocks = document.querySelectorAll(MERMAID_BLOCK_SELECTOR);
       if (codeBlocks.length === 0) return false;
+
+      let createdContainers = 0;
 
       for (const block of codeBlocks) {
         const definition = block.textContent?.trim();
@@ -81,9 +84,10 @@ const { Content } = await post.render();
         container.dataset.definition = definition;
 
         block.replaceWith(container);
+        createdContainers += 1;
       }
 
-      return true;
+      return createdContainers > 0;
     };
 
     const getMermaid = async () => {
@@ -101,7 +105,7 @@ const { Content } = await post.render();
       const mermaid = await getMermaid();
       mermaid.initialize({
         startOnLoad: false,
-        securityLevel: 'loose',
+        securityLevel: 'strict',
         theme: getMermaidTheme(),
       });
 
@@ -134,6 +138,8 @@ const { Content } = await post.render();
         attributes: true,
         attributeFilter: ['class'],
       });
+
+      window.addEventListener('beforeunload', () => observer.disconnect(), { once: true });
     };
 
     if (document.readyState === 'loading') {
