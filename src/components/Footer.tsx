@@ -10,7 +10,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="space-y-4">
             <a href={withBase("/")} className="flex items-center space-x-3">
-              <img src={withBase("/aic-icon.svg")} alt="AI Colleagues" className="h-8 w-8" />
+              <img src={withBase("/aic-icon.svg")} alt="AI Colleagues" className="h-8 w-8 rounded-[8px]" />
               <span className="font-bold text-xl bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-300 dark:to-blue-300 bg-clip-text text-transparent">
                 AI Colleagues
               </span>
