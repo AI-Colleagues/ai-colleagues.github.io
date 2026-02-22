@@ -42,45 +42,64 @@ const panelCardClass =
             <button
               type="button"
               role="tab"
+              id="install-tab-macos"
               class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
               data-install-tab-trigger
               data-tab-id="install-macos"
+              aria-controls="install-panel-macos"
               aria-selected="true"
+              tabindex="0"
             >
               macOS/Linux
             </button>
             <button
               type="button"
               role="tab"
+              id="install-tab-windows"
               class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
               data-install-tab-trigger
               data-tab-id="install-windows"
+              aria-controls="install-panel-windows"
               aria-selected="false"
+              tabindex="-1"
             >
               Windows (Powershell)
             </button>
             <button
               type="button"
               role="tab"
+              id="install-tab-sdk"
               class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
               data-install-tab-trigger
               data-tab-id="install-sdk"
+              aria-controls="install-panel-sdk"
               aria-selected="false"
+              tabindex="-1"
             >
               SDK
             </button>
             <button
               type="button"
               role="tab"
+              id="install-tab-upgrade"
               class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
               data-install-tab-trigger
               data-tab-id="install-upgrade"
+              aria-controls="install-panel-upgrade"
               aria-selected="false"
+              tabindex="-1"
             >
               Upgrade
             </button>
           </div>
-          <div class="relative" role="tabpanel" data-install-tab-panel data-tab-id="install-macos">
+          <div
+            class="relative"
+            role="tabpanel"
+            id="install-panel-macos"
+            aria-labelledby="install-tab-macos"
+            data-install-tab-panel
+            data-tab-id="install-macos"
+          >
             <button
               type="button"
               aria-label="Copy command"
@@ -95,6 +114,8 @@ const panelCardClass =
           <div
             class="relative hidden"
             role="tabpanel"
+            id="install-panel-windows"
+            aria-labelledby="install-tab-windows"
             data-install-tab-panel
             data-tab-id="install-windows"
           >
@@ -109,7 +130,14 @@ const panelCardClass =
             </button>
             <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>irm https://ai-colleagues.com/install.ps1 | iex</code></pre>
           </div>
-          <div class="relative hidden" role="tabpanel" data-install-tab-panel data-tab-id="install-sdk">
+          <div
+            class="relative hidden"
+            role="tabpanel"
+            id="install-panel-sdk"
+            aria-labelledby="install-tab-sdk"
+            data-install-tab-panel
+            data-tab-id="install-sdk"
+          >
             <button
               type="button"
               aria-label="Copy command"
@@ -119,10 +147,16 @@ const panelCardClass =
               <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
               <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
             </button>
-            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>uv tool install orcheo-sdk
-orcheo install</code></pre>
+            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>uvx orcheo-sdk install</code></pre>
           </div>
-          <div class="relative hidden" role="tabpanel" data-install-tab-panel data-tab-id="install-upgrade">
+          <div
+            class="relative hidden"
+            role="tabpanel"
+            id="install-panel-upgrade"
+            aria-labelledby="install-tab-upgrade"
+            data-install-tab-panel
+            data-tab-id="install-upgrade"
+          >
             <button
               type="button"
               aria-label="Copy command"
@@ -249,44 +283,65 @@ orcheo install</code></pre>
       for (const trigger of triggers) {
         const isActive = trigger.dataset.tabId === tabId;
         trigger.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        trigger.setAttribute('tabindex', isActive ? '0' : '-1');
         trigger.classList.toggle('bg-muted', isActive);
       }
 
       for (const panel of panels) {
         const isActive = panel.dataset.tabId === tabId;
         panel.classList.toggle('hidden', !isActive);
+        panel.toggleAttribute('hidden', !isActive);
       }
     };
 
-    for (const trigger of triggers) {
+    const moveFocus = (currentIndex: number, direction: number) => {
+      const nextIndex = (currentIndex + direction + triggers.length) % triggers.length;
+      const nextTrigger = triggers[nextIndex];
+      const tabId = nextTrigger?.dataset.tabId;
+      if (!nextTrigger || !tabId) return;
+      setActiveTab(tabId);
+      nextTrigger.focus();
+    };
+
+    triggers.forEach((trigger, index) => {
       trigger.addEventListener('click', () => {
         const tabId = trigger.dataset.tabId;
         if (tabId) {
           setActiveTab(tabId);
         }
       });
-    }
+
+      trigger.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          moveFocus(index, 1);
+        } else if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          moveFocus(index, -1);
+        }
+      });
+    });
 
     for (const copyTrigger of copyTriggers) {
       copyTrigger.addEventListener('click', async () => {
-      const panel = copyTrigger.closest('[data-install-tab-panel]');
-      const command = panel?.querySelector('code')?.textContent?.trim() ?? '';
-      if (!command) return;
+        const panel = copyTrigger.closest('[data-install-tab-panel]');
+        const command = panel?.querySelector('code')?.textContent?.trim() ?? '';
+        if (!command) return;
 
-      const copyIcon = copyTrigger.querySelector('[data-copy-icon]');
-      const copiedIcon = copyTrigger.querySelector('[data-copied-icon]');
-      try {
-        await navigator.clipboard.writeText(command);
-        copyIcon?.classList.add('hidden');
-        copiedIcon?.classList.remove('hidden');
-      } catch {}
+        const copyIcon = copyTrigger.querySelector('[data-copy-icon]');
+        const copiedIcon = copyTrigger.querySelector('[data-copied-icon]');
+        try {
+          await navigator.clipboard.writeText(command);
+          copyIcon?.classList.add('hidden');
+          copiedIcon?.classList.remove('hidden');
+        } catch {}
 
-      window.setTimeout(() => {
-        copiedIcon?.classList.add('hidden');
-        copyIcon?.classList.remove('hidden');
-      }, 1000);
+        window.setTimeout(() => {
+          copiedIcon?.classList.add('hidden');
+          copyIcon?.classList.remove('hidden');
+        }, 1000);
       });
-      }
+    }
 
     const defaultTab = triggers[0]?.dataset.tabId;
     if (defaultTab) {

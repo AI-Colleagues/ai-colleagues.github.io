@@ -3,6 +3,7 @@ $ErrorActionPreference = 'Stop'
 if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
   Write-Host 'uv not found. Installing uv...'
   irm https://astral.sh/uv/install.ps1 | iex
+  $env:PATH = "$env:USERPROFILE\.local\bin;$env:PATH"
 }
 
 if (-not $env:ORCHEO_STACK_ASSET_BASE_URL) {
