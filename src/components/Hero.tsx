@@ -79,7 +79,7 @@ export function Hero() {
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-1 text-2xl font-bold md:text-3xl">
                 <Brain className="h-6 w-6 text-blue-500" />
-                <span>95%</span>
+                <span>100%</span>
               </div>
               <p className="text-sm text-muted-foreground">Client Satisfaction</p>
             </div>
