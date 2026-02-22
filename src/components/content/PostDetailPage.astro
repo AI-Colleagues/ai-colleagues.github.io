@@ -17,7 +17,7 @@ const { Content } = await post.render();
 ---
 
 <Layout title={`${post.data.title} - AI Colleagues`}>
-  <article class="pt-4 pb-8 md:pt-6 md:pb-12">
+  <article class="pt-4 pb-8 md:pt-6 md:pb-12 overflow-x-hidden">
     <div class="container mx-auto px-4">
       <div class="max-w-5xl mx-auto">
         <a
@@ -52,7 +52,7 @@ const { Content } = await post.render();
         </header>
       </div>
 
-      <div class="max-w-3xl mx-auto overflow-hidden">
+      <div class="max-w-3xl mx-auto">
         <div class="prose prose-lg dark:prose-invert max-w-none">
           <Content />
         </div>
@@ -190,6 +190,11 @@ const { Content } = await post.render();
     .prose [data-footnote-backref] {
       text-decoration: none;
       margin-left: 0.25rem;
+    }
+
+    .prose pre {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
   </style>
 </Layout>
