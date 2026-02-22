@@ -5,14 +5,14 @@ import { withBase } from "@/lib/utils";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 md:py-32">
-      <div className="absolute inset-0 -z-10">
+    <section className="relative isolate overflow-hidden py-20 md:py-32">
+      <div className="pointer-events-none absolute inset-0">
         <div className="absolute top-0 -left-4 h-72 w-72 rounded-full bg-cyan-300/70 blur-xl dark:bg-cyan-900/60" />
         <div className="absolute top-0 -right-4 h-72 w-72 rounded-full bg-blue-300/70 blur-xl dark:bg-blue-900/60" />
         <div className="absolute bottom-8 left-32 h-72 w-72 rounded-full bg-teal-300/60 blur-xl dark:bg-teal-900/60" />
       </div>
 
-      <div className="container mx-auto px-4">
+      <div className="relative z-10 container mx-auto px-4">
         <div className="flex flex-col items-center text-center space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
