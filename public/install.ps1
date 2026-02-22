@@ -18,10 +18,6 @@ if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
   $env:PATH = "$uvBinDir;$env:PATH"
 }
 
-if (-not $env:ORCHEO_STACK_ASSET_BASE_URL) {
-  $env:ORCHEO_STACK_ASSET_BASE_URL = 'https://raw.githubusercontent.com/ShaojieJiang/orcheo/main/deploy/local-stack'
-}
-
 $installArgs = @()
 if ($args.Count -gt 0) {
   $installArgs = $args

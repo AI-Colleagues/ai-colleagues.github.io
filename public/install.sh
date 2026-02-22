@@ -7,8 +7,9 @@ if ! command -v uv >/dev/null 2>&1; then
   export PATH="$HOME/.local/bin:$PATH"
 fi
 
-: "${ORCHEO_STACK_ASSET_BASE_URL:=https://raw.githubusercontent.com/ShaojieJiang/orcheo/main/deploy/local-stack}"
-export ORCHEO_STACK_ASSET_BASE_URL
+if [ -n "${ORCHEO_STACK_ASSET_BASE_URL:-}" ]; then
+  export ORCHEO_STACK_ASSET_BASE_URL
+fi
 
 if [ "$#" -gt 0 ]; then
   exec uvx orcheo-sdk install "$@"
