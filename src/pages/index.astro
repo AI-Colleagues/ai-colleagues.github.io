@@ -323,6 +323,7 @@ const panelCardClass =
     });
 
     for (const copyTrigger of copyTriggers) {
+      let resetTimer: ReturnType<typeof setTimeout> | undefined;
       copyTrigger.addEventListener('click', async () => {
         const panel = copyTrigger.closest('[data-install-tab-panel]');
         const command = panel?.querySelector('code')?.textContent?.trim() ?? '';
@@ -334,9 +335,15 @@ const panelCardClass =
           await navigator.clipboard.writeText(command);
           copyIcon?.classList.add('hidden');
           copiedIcon?.classList.remove('hidden');
-        } catch {}
+        } catch (err) {
+          console.warn('Clipboard write failed:', err);
+          return;
+        }
 
-        window.setTimeout(() => {
+        if (resetTimer) {
+          clearTimeout(resetTimer);
+        }
+        resetTimer = setTimeout(() => {
           copiedIcon?.classList.add('hidden');
           copyIcon?.classList.remove('hidden');
         }, 1000);
