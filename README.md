@@ -29,6 +29,14 @@ npm run dev
 npm run build
 ```
 
+## Orcheo Quick Install Snippet
+
+Use this as the shortest setup path in homepage copy:
+
+```bash
+curl -fsSL https://ai-colleagues.com/install.sh | sh
+```
+
 ## Contact Form Configuration
 
 The contact form uses Web3Forms. You can override the key via:
