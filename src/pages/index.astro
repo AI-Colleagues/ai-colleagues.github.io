@@ -50,7 +50,20 @@ const panelCardClass =
               aria-selected="true"
               tabindex="0"
             >
-              macOS/Linux
+              macOS
+            </button>
+            <button
+              type="button"
+              role="tab"
+              id="install-tab-linux"
+              class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+              data-install-tab-trigger
+              data-tab-id="install-linux"
+              aria-controls="install-panel-linux"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Linux
             </button>
             <button
               type="button"
@@ -110,6 +123,27 @@ const panelCardClass =
               <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
               <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
             </button>
+            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>bash &lt;(curl -fsSL https://ai-colleagues.com/install.sh)</code></pre>
+          </div>
+          <div
+            class="relative hidden"
+            role="tabpanel"
+            id="install-panel-linux"
+            aria-labelledby="install-tab-linux"
+            tabindex="0"
+            hidden
+            data-install-tab-panel
+            data-tab-id="install-linux"
+          >
+            <button
+              type="button"
+              aria-label="Copy command"
+              class="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-transparent bg-slate-900/70 text-slate-300 transition-colors hover:bg-slate-800 hover:text-slate-100"
+              data-install-copy-trigger
+            >
+              <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
+              <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
+            </button>
             <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>curl -fsSL https://ai-colleagues.com/install.sh | sh</code></pre>
           </div>
           <div
@@ -152,7 +186,7 @@ const panelCardClass =
               <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
               <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
             </button>
-            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>uv tool install orcheo-sdk
+            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>uv tool install -U orcheo-sdk
 orcheo install</code></pre>
           </div>
           <div
