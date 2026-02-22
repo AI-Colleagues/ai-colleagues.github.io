@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/main.astro';
 import { getCollection } from 'astro:content';
-import { ArrowRight, Calendar, Clock } from 'lucide-react';
+import { ArrowRight, Calendar, Check, Clock, Copy } from 'lucide-react';
 import { withBase } from '@/lib/utils';
 import { Hero } from '@/components/Hero';
 import { Features } from '@/components/Features';
@@ -33,6 +33,111 @@ const panelCardClass =
 
 <Layout title="AI Colleagues - Build Reliable AI Systems">
   <Hero client:load />
+  <section class="py-12 border-b bg-muted/30">
+    <div class="container mx-auto px-4">
+      <div class="mx-auto max-w-4xl rounded-2xl border bg-background/80 p-6 shadow-sm">
+        <p class="text-sm font-medium text-muted-foreground">Install Orcheo</p>
+        <div class="mt-3 space-y-3" data-install-tabs>
+          <div class="flex flex-wrap gap-2" role="tablist" aria-label="Installation paths">
+            <button
+              type="button"
+              role="tab"
+              class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+              data-install-tab-trigger
+              data-tab-id="install-macos"
+              aria-selected="true"
+            >
+              macOS/Linux
+            </button>
+            <button
+              type="button"
+              role="tab"
+              class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+              data-install-tab-trigger
+              data-tab-id="install-windows"
+              aria-selected="false"
+            >
+              Windows (Powershell)
+            </button>
+            <button
+              type="button"
+              role="tab"
+              class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+              data-install-tab-trigger
+              data-tab-id="install-sdk"
+              aria-selected="false"
+            >
+              SDK
+            </button>
+            <button
+              type="button"
+              role="tab"
+              class="rounded-md border bg-background px-3 py-1.5 text-xs font-medium transition-colors hover:bg-muted"
+              data-install-tab-trigger
+              data-tab-id="install-upgrade"
+              aria-selected="false"
+            >
+              Upgrade
+            </button>
+          </div>
+          <div class="relative" role="tabpanel" data-install-tab-panel data-tab-id="install-macos">
+            <button
+              type="button"
+              aria-label="Copy command"
+              class="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-transparent bg-slate-900/70 text-slate-300 transition-colors hover:bg-slate-800 hover:text-slate-100"
+              data-install-copy-trigger
+            >
+              <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
+              <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
+            </button>
+            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>curl -fsSL https://ai-colleagues.com/install.sh | sh</code></pre>
+          </div>
+          <div
+            class="relative hidden"
+            role="tabpanel"
+            data-install-tab-panel
+            data-tab-id="install-windows"
+          >
+            <button
+              type="button"
+              aria-label="Copy command"
+              class="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-transparent bg-slate-900/70 text-slate-300 transition-colors hover:bg-slate-800 hover:text-slate-100"
+              data-install-copy-trigger
+            >
+              <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
+              <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
+            </button>
+            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>irm https://ai-colleagues.com/install.ps1 | iex</code></pre>
+          </div>
+          <div class="relative hidden" role="tabpanel" data-install-tab-panel data-tab-id="install-sdk">
+            <button
+              type="button"
+              aria-label="Copy command"
+              class="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-transparent bg-slate-900/70 text-slate-300 transition-colors hover:bg-slate-800 hover:text-slate-100"
+              data-install-copy-trigger
+            >
+              <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
+              <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
+            </button>
+            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>uv tool install orcheo-sdk
+orcheo install</code></pre>
+          </div>
+          <div class="relative hidden" role="tabpanel" data-install-tab-panel data-tab-id="install-upgrade">
+            <button
+              type="button"
+              aria-label="Copy command"
+              class="absolute right-2 top-2 z-10 inline-flex h-7 w-7 items-center justify-center rounded-md border border-transparent bg-slate-900/70 text-slate-300 transition-colors hover:bg-slate-800 hover:text-slate-100"
+              data-install-copy-trigger
+            >
+              <span class="inline-flex" data-copy-icon><Copy class="h-3 w-3" /></span>
+              <span class="hidden inline-flex" data-copied-icon><Check class="h-3 w-3 text-emerald-300" /></span>
+            </button>
+            <pre class="overflow-x-auto rounded-lg bg-slate-950 p-4 pr-12 text-sm text-slate-100"><code>orcheo install upgrade --yes</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <Features client:load />
   <section class="py-20 border-y bg-muted/20">
     <div class="container mx-auto px-4">
@@ -126,3 +231,66 @@ const panelCardClass =
   </section>
   <FAQ client:load />
 </Layout>
+
+<script>
+  const installTabSections = document.querySelectorAll('[data-install-tabs]');
+  for (const section of installTabSections) {
+    const triggers = Array.from(
+      section.querySelectorAll('[data-install-tab-trigger]'),
+    ) as HTMLButtonElement[];
+    const panels = Array.from(
+      section.querySelectorAll('[data-install-tab-panel]'),
+    ) as HTMLElement[];
+    const copyTriggers = Array.from(
+      section.querySelectorAll('[data-install-copy-trigger]'),
+    ) as HTMLButtonElement[];
+
+    const setActiveTab = (tabId: string) => {
+      for (const trigger of triggers) {
+        const isActive = trigger.dataset.tabId === tabId;
+        trigger.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        trigger.classList.toggle('bg-muted', isActive);
+      }
+
+      for (const panel of panels) {
+        const isActive = panel.dataset.tabId === tabId;
+        panel.classList.toggle('hidden', !isActive);
+      }
+    };
+
+    for (const trigger of triggers) {
+      trigger.addEventListener('click', () => {
+        const tabId = trigger.dataset.tabId;
+        if (tabId) {
+          setActiveTab(tabId);
+        }
+      });
+    }
+
+    for (const copyTrigger of copyTriggers) {
+      copyTrigger.addEventListener('click', async () => {
+      const panel = copyTrigger.closest('[data-install-tab-panel]');
+      const command = panel?.querySelector('code')?.textContent?.trim() ?? '';
+      if (!command) return;
+
+      const copyIcon = copyTrigger.querySelector('[data-copy-icon]');
+      const copiedIcon = copyTrigger.querySelector('[data-copied-icon]');
+      try {
+        await navigator.clipboard.writeText(command);
+        copyIcon?.classList.add('hidden');
+        copiedIcon?.classList.remove('hidden');
+      } catch {}
+
+      window.setTimeout(() => {
+        copiedIcon?.classList.add('hidden');
+        copyIcon?.classList.remove('hidden');
+      }, 1000);
+      });
+      }
+
+    const defaultTab = triggers[0]?.dataset.tabId;
+    if (defaultTab) {
+      setActiveTab(defaultTab);
+    }
+  }
+</script>
