@@ -18,17 +18,12 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="container flex h-[72px] items-center justify-between">
-        <a href={withBase("/")} className="inline-flex items-center gap-2.5">
-          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] bg-white p-0">
-            <img
-              src={withBase("/aic-icon.svg")}
-              alt="AI Colleagues"
-              className="h-[92%] w-[92%] rounded-[8px] object-contain scale-[1.5]"
-            />
-          </span>
-          <span className="font-bold leading-tight text-xl bg-gradient-to-r from-cyan-600 to-blue-600 dark:from-cyan-300 dark:to-blue-300 bg-clip-text text-transparent">
-            AI Colleagues
-          </span>
+        <a href={withBase("/")} className="inline-flex items-center">
+          <img
+            src={withBase("/aic-banner.svg")}
+            alt="AI Colleagues"
+            className="h-9 object-contain"
+          />
         </a>
 
         <div className="hidden md:flex items-center space-x-6">

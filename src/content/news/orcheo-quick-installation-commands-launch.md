@@ -13,16 +13,11 @@ tags:
 
 We've launched a new **quick installation flow** for Orcheo to make first-time setup faster on major platforms.
 
-You can now install Orcheo with a single command for each platform:
+You can now install Orcheo with a single command:
 
 ```bash
-# macOS
+# macOS / Linux
 bash <(curl -fsSL https://ai-colleagues.com/install.sh)
-```
-
-```bash
-# Linux
-curl -fsSL https://ai-colleagues.com/install.sh | sh
 ```
 
 ```powershell
