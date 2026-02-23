@@ -193,26 +193,21 @@ const { Content } = await post.render();
     }
 
     .prose pre {
-      overflow: hidden !important;
-    }
-
-    .prose pre > code {
-      display: block;
-      overflow-x: auto;
+      overflow-x: auto !important;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
       scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
     }
 
-    .prose pre > code::-webkit-scrollbar {
+    .prose pre::-webkit-scrollbar {
       height: 6px;
     }
 
-    .prose pre > code::-webkit-scrollbar-track {
+    .prose pre::-webkit-scrollbar-track {
       background: transparent;
     }
 
-    .prose pre > code::-webkit-scrollbar-thumb {
+    .prose pre::-webkit-scrollbar-thumb {
       background-color: hsl(var(--muted-foreground) / 0.3);
       border-radius: 3px;
     }
