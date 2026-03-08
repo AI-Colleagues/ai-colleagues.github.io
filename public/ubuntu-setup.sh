@@ -12,7 +12,7 @@ readonly BASHRC="${HOME}/.bashrc"
 readonly CLOUDFLARE_KEYRING="/usr/share/keyrings/cloudflare-public-v2.gpg"
 readonly CLOUDFLARE_REPO="/etc/apt/sources.list.d/cloudflared.list"
 
-install_cloudflared() {
+install_packages() {
   # Add cloudflare gpg key
   sudo mkdir -p --mode=0755 /usr/share/keyrings
   curl -fsSL https://pkg.cloudflare.com/cloudflare-public-v2.gpg | sudo tee "$CLOUDFLARE_KEYRING" >/dev/null
@@ -20,9 +20,9 @@ install_cloudflared() {
   # Add cloudflared apt repository
   echo "deb [signed-by=${CLOUDFLARE_KEYRING}] https://pkg.cloudflare.com/cloudflared any main" | sudo tee "$CLOUDFLARE_REPO" >/dev/null
 
-  # Refresh package metadata after adding the repository, then install cloudflared
+  # Refresh package metadata after adding the repository, then install packages
   sudo apt update
-  sudo apt install -y cloudflared
+  sudo apt install -y cloudflared emacs
 
   # Install cloudflared as a service
   sudo cloudflared service install "$CLOUDFLARED_TOKEN"
@@ -63,7 +63,7 @@ EOF
 }
 
 main() {
-  install_cloudflared
+  install_packages
   configure_bash_history
 }
 
