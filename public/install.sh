@@ -1,18 +1,6 @@
 #!/usr/bin/env sh
 set -eu
 
-# On Linux, Docker requires non-root users to be in the "docker" group.
-if [ "$(uname)" = "Linux" ] && [ "$(id -u)" != "0" ] && ! id -nG | grep -qw docker; then
-  echo "Your user is not in the 'docker' group, which is required to run Docker."
-  echo ""
-  echo "Run the following commands, then re-run this install command:"
-  echo ""
-  echo "  sudo usermod -aG docker \$USER"
-  echo "  newgrp docker"
-  echo ""
-  exit 1
-fi
-
 if ! command -v uv >/dev/null 2>&1; then
   echo "uv not found. Installing uv..."
   curl -LsSf https://astral.sh/uv/install.sh | sh
