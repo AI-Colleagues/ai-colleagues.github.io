@@ -6,6 +6,7 @@ import { withBase } from "@/lib/utils";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const requestDemoUrl = "https://calendly.com/s-jiang-ai-colleagues/30min";
 
   const navItems = [
     { label: "Services", href: withBase("/#features") },
@@ -46,7 +47,7 @@ export function Header() {
         <div className="flex items-center space-x-4">
           <ThemeToggle />
           <Button asChild className="hidden md:inline-flex">
-            <a href={withBase("/contact")}>Request Demo</a>
+            <a href={requestDemoUrl}>Request Demo</a>
           </Button>
 
           <button
@@ -73,7 +74,7 @@ export function Header() {
               </a>
             ))}
             <Button asChild className="w-full">
-              <a href={withBase("/contact")} onClick={() => setIsMenuOpen(false)}>
+              <a href={requestDemoUrl} onClick={() => setIsMenuOpen(false)}>
                 Request Demo
               </a>
             </Button>

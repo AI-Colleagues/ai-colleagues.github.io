@@ -3,6 +3,7 @@ import { withBase } from "@/lib/utils";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const requestDemoUrl = "https://calendly.com/s-jiang-ai-colleagues/30min";
 
   return (
     <footer className="border-t bg-muted/30">
@@ -61,7 +62,7 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={withBase("/contact")} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href={requestDemoUrl} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                   Request Demo
                 </a>
               </li>
