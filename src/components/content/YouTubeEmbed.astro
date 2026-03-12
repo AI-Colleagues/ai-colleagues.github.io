@@ -2,9 +2,10 @@
 type Props = {
   videoId: string;
   title: string;
+  caption?: string;
 };
 
-const { videoId, title } = Astro.props as Props;
+const { videoId, title, caption } = Astro.props as Props;
 const src = `https://www.youtube.com/embed/${videoId}`;
 ---
 
@@ -16,9 +17,9 @@ const src = `https://www.youtube.com/embed/${videoId}`;
       title={title}
       loading="lazy"
       referrerpolicy="strict-origin-when-cross-origin"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
+      sandbox="allow-scripts allow-same-origin allow-presentation"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
     />
   </div>
-  <figcaption class="mt-3 text-sm text-muted-foreground">{title}</figcaption>
+  {caption && <figcaption class="mt-3 text-sm text-muted-foreground">{caption}</figcaption>}
 </figure>
