@@ -1,0 +1,148 @@
+---
+title: "Orcheo Local Server Quick Start: From Installation to Your First Live Workflow and Cross-Platform Private AI Bots"
+summary: "A practical introduction to Orcheo for first-time users: install the platform, start from Canvas templates, vibe-code a new workflow, deploy it to an Orcheo local server on your laptop, and then extend the same ideas into private AI bot workflows across Telegram, Discord, and QQ."
+pubDate: 2026-03-12
+author: Shaojie Jiang
+category: Product
+tags:
+  - orcheo
+  - quick-start
+  - canvas
+  - workflow-automation
+  - vibe-coding
+  - credential-vault
+  - telegram
+  - discord
+  - qq
+  - ai-agents
+---
+
+import YouTubeEmbed from '@/components/content/YouTubeEmbed.astro';
+
+Getting from zero to a working automation should not require days of documentation, a heavyweight builder, or a complicated deployment setup. We recorded two new videos to show what Orcheo looks like in practice: first getting from installation to a live workflow on your laptop, then extending that same workflow model into private AI bots across Telegram, Discord, and QQ.
+
+## Who this is for
+
+This quick start is especially useful if you are:
+
+- evaluating Orcheo for the first time
+- looking for a practical introduction instead of abstract architecture diagrams
+- interested in AI-assisted workflow authoring
+- building private AI bots for Telegram, Discord, or QQ
+- exploring secure collaboration patterns between humans and coding agents
+- building automations that may later be reused as agent tools
+
+The first is the **Orcheo Local Server Quick Start**: install Orcheo, open Canvas, start from a workflow template, build a new workflow, and upload it to the Orcheo local server running on your laptop.
+
+The second focuses on **private AI bot templates** in Canvas for Telegram, Discord, and QQ, including a shared listener workflow that routes replies back to the correct platform automatically. It also illustrates Orcheo's out-of-the-box observability: the **Trace** tab is useful for understanding the input and output of each workflow node when you need to inspect or debug a live flow.
+
+Taken together, these videos show both halves of the early Orcheo experience:
+
+- how to go from zero to a live workflow
+- how to take that workflow mindset into real messaging channels people use every day
+
+For the end-to-end quick-start demo, we build a simple workflow that generates a joke every minute and sends it to Telegram. It is intentionally small, but it shows the full loop from local authoring to a live automation on your laptop.
+
+You can watch the full walkthroughs here:
+
+<YouTubeEmbed
+  videoId="aIShcY28Wpw"
+  title="Orcheo Local Server Quick Start on YouTube"
+/>
+
+<YouTubeEmbed
+  videoId="CWftQZan9qE"
+  title="Private AI Bot Templates on YouTube"
+/>
+
+## Why this guide matters
+
+One of the recurring questions around workflow orchestration is whether new users can get productive quickly without spending days learning a proprietary builder, a complex deployment model, or a brittle integration story.
+
+This is exactly the experience we wanted to address with these two videos.
+
+The goal was not just to show that Orcheo works. The goal was to show that a new user can go from zero to a working automation with a relatively flat learning curve, and then immediately see how the same platform extends to real conversational interfaces across multiple channels.
+
+## A flatter learning curve through vibe-coded workflows
+
+One of the most important things about Orcheo today is that workflows can be **vibe-coded** easily.
+
+We wrote more about [why Orcheo Canvas is embracing vibe-coded Python workflows](/blog/dev-log-why-orcheo-canvas-is-embracing-vibe-coded-python-workflows) in a recent dev log.
+
+Instead of forcing users into a heavy authoring experience, Orcheo lets them describe what they want, iterate quickly, and express workflow logic in a way that is far more natural for modern AI-assisted development.[^orcheo-skill] In practice, that means:
+
+[^orcheo-skill]: Today, this is enabled by the companion [`Orcheo Skill`](https://github.com/ShaojieJiang/agent-skills), which works well with coding agents such as Codex, Claude Code, and Cursor so users can keep working inside their existing agent subscription instead of burning their own API tokens.
+
+- less time spent learning a specialized workflow editor
+- less friction when changing logic, adding steps, or fixing bugs
+- faster iteration with coding agents
+- workflows that are easier to review, version, and evolve
+
+This matters especially for first-time users. When the first success case is easy, experimentation follows naturally. Users can start from templates, modify them with natural-language intent and code, and move toward custom workflows without a steep transition.
+
+That is the core idea behind these two videos: help users reach their first working automation quickly, then show how that same approach extends into cross-platform agent experiences.
+
+## Secure human-agent collaboration with the Credential Vault
+
+Another important part of Orcheo is its security model for working with external services.
+
+In the quick-start video, the example workflow sends jokes to Telegram. In the second video, the workflows connect to Telegram, Discord, and QQ. That immediately raises a real operational question: how should coding agents work with services that require sensitive credentials?
+
+Orcheo’s **Credential Vault** is designed for this. Secret values remain under human control, while coding agents can still build and operate workflows that depend on those credentials without direct exposure to the raw secrets themselves.
+
+This creates a cleaner **separation of duties**:
+
+- humans provision, approve, and govern sensitive credentials
+- agents handle workflow logic, orchestration, and automation behavior
+
+That separation is important. It means teams do not have to choose between automation speed and security hygiene. They can keep secrets in the right operational boundary while still allowing agents to be useful builders and operators.
+
+## Integrations are growing quickly
+
+A workflow platform only becomes genuinely useful when it can connect to the services teams already rely on.
+
+Orcheo’s integration surface is growing quickly, and the two videos show that at different levels.
+
+The quick-start video uses Telegram as the first concrete integration because it is simple and intuitive. The second video expands that picture with ready-to-use private listener templates for:
+
+- Telegram private messages
+- Discord direct messages
+- QQ private, group, and channel message flows
+- a shared multi-platform listener that routes responses automatically
+
+Once users can connect workflows to messaging platforms, data systems, APIs, and operational tools, Orcheo moves from being a workflow idea to being an execution layer for real work.
+
+That matters for new users because templates and starter workflows become much more valuable when they map onto tools people already use every day. It also makes it easier to take agent workflows everywhere with you, instead of treating them as isolated demos.
+
+## Workflows are not just automations: they can also become agent tools
+
+Another feature worth highlighting is that Orcheo workflows are not limited to scheduled or event-driven automations.
+
+They can also be used directly as **tools for Orcheo agents**.
+
+This is a powerful design choice. It means a workflow that starts life as a standalone automation can later become a reusable capability inside an agent system. A team can define logic once, operationalize it as a workflow, and then expose that same workflow to an agent when interactive or agentic use cases emerge.
+
+That reduces duplication and keeps workflow logic reusable across product surfaces.
+
+In other words, workflows in Orcheo are not dead-end scripts. They are durable building blocks that can serve both automation and agent execution.
+
+## What the two videos cover
+
+Together, the videos walk through a practical progression:
+
+1. Install Orcheo for the first time.
+2. Open Canvas and explore the available workflow templates.
+3. Create a new workflow and vibe-code the logic from scratch.
+4. Configure the workflow so it can generate a joke every minute and send it to Telegram.
+5. Upload the workflow to the Orcheo local server and run it as a live automation on your laptop.
+6. Start from new private listener templates for Telegram, Discord, and QQ.
+7. Connect incoming private messages to an AI agent with chat history enabled.
+8. Route replies back to the right platform through single-platform or shared multi-platform workflows.
+
+This sequence is deliberate. It shows that Orcheo is not just about local prototyping and not just about deployment. It is about connecting authoring, integration, security, conversational interfaces, and execution in one coherent workflow, starting with a setup that runs entirely on your laptop.
+
+## Closing thought
+
+The point of this quick start is not that a joke bot is impressive on its own. The point is that a workflow simple enough to understand on day one already exposes the concerns that matter later: how you author logic quickly, how you handle secrets safely, how you debug live runs, and how you reuse the same workflow ideas across real channels and agent systems.
+
+If you want to see that progression in action, watch the videos above. If you want to explore Orcheo further, browse the [Orcheo GitHub repo](https://github.com/ShaojieJiang/orcheo) or the [Orcheo documentation](https://orcheo.readthedocs.io/).
