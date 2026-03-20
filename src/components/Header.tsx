@@ -10,6 +10,7 @@ export function Header() {
 
   const navItems = [
     { label: "Services", href: withBase("/#features") },
+    { label: "About", href: withBase("/#about") },
     { label: "FAQ", href: withBase("/#faq") },
     { label: "Blog", href: withBase("/blog") },
     { label: "News", href: withBase("/news") },
