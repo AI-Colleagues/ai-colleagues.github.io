@@ -2,7 +2,7 @@
 title: "Our Conversational Search Paper Is Now on arXiv"
 summary: "The Orcheo conversational search paper is now publicly available on arXiv, covering modular workflow design, reproducible evaluation, and deployment-ready execution."
 pubDate: 2026-02-17
-author: Shaojie Jiang, Svitlana Vakulenko, and Maarten de Rijke
+author: Shaojie Jiang
 category: Research
 tags:
   - orcheo
