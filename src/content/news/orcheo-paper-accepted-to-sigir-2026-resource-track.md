@@ -13,7 +13,7 @@ tags:
 
 We are pleased to share that our research on **Orcheo**, the open-source AI workflow orchestration platform, has been accepted to the **SIGIR 2026 Resource Track**.
 
-The paper shows how complex conversational search systems can be built as **modular, versioned workflows** rather than brittle end-to-end scripts. This improves reproducibility, makes component-level experimentation easier, and creates a smoother path from local development to production deployment.
+The paper (authored by [Shaojie Jiang](https://nl.linkedin.com/in/shaojie-jiang-1a69b3122), [Svitlana Vakulenko](https://www.linkedin.com/in/svakulenko), [Maarten de Rijke](https://www.linkedin.com/in/maartenderijke)) shows how complex conversational search systems can be built as **modular, versioned workflows** rather than brittle end-to-end scripts. This improves reproducibility, makes component-level experimentation easier, and creates a smoother path from local development to production deployment.
 
 The work reflects a broader goal behind Orcheo: making AI automation, from quick vibe-coded workflows to production pipelines, more structured, reusable, and secure.
 
