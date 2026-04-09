@@ -2,7 +2,7 @@
 title: "Orcheo Quick Installation Commands Are Now Live"
 summary: "We launched quick installation commands for macOS, Linux, and Windows, plus SDK install and upgrade paths so teams can start using Orcheo in minutes."
 pubDate: 2026-02-22
-author: Orcheo Team
+author: Shaojie Jiang
 category: Product
 tags:
   - orcheo
