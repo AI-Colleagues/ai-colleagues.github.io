@@ -21,7 +21,7 @@ export function Footer() {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://github.com/ShaojieJiang/orcheo"
+                href="https://github.com/AI-Colleagues/orcheo"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
