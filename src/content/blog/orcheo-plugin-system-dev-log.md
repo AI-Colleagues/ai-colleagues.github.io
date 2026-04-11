@@ -138,7 +138,7 @@ from a scheduled job, approval flow, or agent action should not have to install
 listener infrastructure to do it. The contract flow looks like this:
 
 ```
-orcheo plugin install "git+https://github.com/ShaojieJiang/orcheo-plugin-wecom-listener.git"
+orcheo plugin install "git+https://github.com/AI-Colleagues/orcheo-plugin-wecom-listener.git"
 → WeComListenerPluginNode and WeComWsReplyNode visible in node catalog
 → wecom listener platform registered in listener_registry
 → backend creates adapters and manages long-lived WebSocket connections
@@ -165,7 +165,7 @@ package alongside `__init__.py`, not at the repository root. This means it
 gets bundled into the distribution wheel and is available without the source
 tree. Getting `package-data` right in `pyproject.toml` is the most common
 first-time mistake. The
-[plugin template repository](https://github.com/ShaojieJiang/orcheo-plugin-template)
+[plugin template repository](https://github.com/AI-Colleagues/orcheo-plugin-template)
 gets this right from the start.
 
 **Setuptools is the documented default.** We chose `setuptools` as the build
