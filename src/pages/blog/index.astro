@@ -2,6 +2,8 @@
 import Layout from '@/layouts/main.astro';
 import PostCardGrid from '@/components/content/PostCardGrid.astro';
 import { getPublishedPosts } from '@/lib/content';
+import { Rss } from 'lucide-react';
+import { withBase } from '@/lib/utils';
 
 const posts = await getPublishedPosts('blog');
 ---
@@ -17,6 +19,14 @@ const posts = await getPublishedPosts('blog');
         <p class="text-xl text-muted-foreground max-w-2xl mx-auto">
           Engineering notes and implementation practices from AI Colleagues.
         </p>
+        <a
+          href={withBase('/blog/rss.xml')}
+          class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
+          aria-label="RSS Feed"
+        >
+          <Rss className="h-4 w-4" />
+          RSS Feed
+        </a>
       </div>
 
       <PostCardGrid posts={posts} hrefPrefix="/blog" ctaLabel="Read post" showReadingTime />
