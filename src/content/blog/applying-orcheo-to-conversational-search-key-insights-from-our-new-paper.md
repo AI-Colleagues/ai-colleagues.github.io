@@ -91,7 +91,7 @@ If you want the complete technical details (including workflow examples), the pa
 
 - **Skim the workflow examples in the paper** and map each node (intent → retrieval → reranking → generation → tool/db access) to the components in your own stack.
 - **Try the [conversational search examples and interactive demos](https://orcheo.readthedocs.io/en/latest/examples/conversational_search/)** in the docs.
-- **Browse the [Orcheo GitHub repo](https://github.com/ShaojieJiang/orcheo)** to see how nodes and graphs are structured.
+- **Browse the [Orcheo GitHub repo](https://github.com/AI-Colleagues/orcheo)** to see how nodes and graphs are structured.
 - **Start from a baseline graph and iterate surgically**: swap one node at a time, track deltas between runs, and keep the rest of the workflow fixed.
 - **Add “production hygiene” early** (secrets, telemetry, latency/cost checks) so your experimental workflow can graduate to reliable execution.
 - **Want help applying this to your stack, or want to share what worked (and what didn’t)?** AIC works with teams to design workflows, integrate Orcheo into existing stacks, and operationalize reliable conversational search and other LLM-powered applications — [get in touch](/contact).

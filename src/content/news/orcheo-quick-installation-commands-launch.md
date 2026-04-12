@@ -40,4 +40,4 @@ orcheo install upgrade --yes
 
 These commands are designed to help you go from zero to a working Orcheo environment with minimal manual setup.
 
-If you run into any problems during installation or upgrade, please report them [here](https://github.com/ShaojieJiang/orcheo/issues).
+If you run into any problems during installation or upgrade, please report them [here](https://github.com/AI-Colleagues/orcheo/issues).
