@@ -12,7 +12,7 @@ if [ -n "${ORCHEO_STACK_ASSET_BASE_URL:-}" ]; then
   export ORCHEO_STACK_ASSET_BASE_URL
 fi
 
-uv tool install -U orcheo-sdk
+uv tool install -U orcheo-sdk, skill-mgr
 
 if [ "$#" -gt 0 ]; then
   exec orcheo install "$@"
