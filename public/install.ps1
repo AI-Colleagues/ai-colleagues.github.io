@@ -22,7 +22,8 @@ if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
   $env:PATH = "$uvBinDir;$env:PATH"
 }
 
-uv tool install -U orcheo-sdk, skill-mgr
+uv tool install -U orcheo-sdk
+uv tool install -U skill-mgr
 if ($LASTEXITCODE -ne 0) {
   Write-Error @"
 Failed to install orcheo-sdk.
